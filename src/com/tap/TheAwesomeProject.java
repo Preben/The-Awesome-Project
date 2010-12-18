@@ -7,3 +7,5 @@ public class TheAwesomeProject extends MapActivity {
     /** Called when the activity is first created. */
    
 }
+
+test
