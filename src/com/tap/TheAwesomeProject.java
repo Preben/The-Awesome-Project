@@ -8,4 +8,3 @@ public class TheAwesomeProject extends MapActivity {
    
 }
 
-test
