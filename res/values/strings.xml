@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, TheAwesomeProject!</string>
     <string name="app_name">The awesome project</string>
+    <string name="menu_streetView">StreetView</string>
+    <string name="menu_satelliteView">SatelliteView</string>
+    
+    
 </resources>
