@@ -1,8 +1,12 @@
 package com.tap;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,8 +70,8 @@ public class TheAwesomeProject extends MapActivity {
 		MapCoordinateOverlay m = new MapCoordinateOverlay();
 
 		itemizedoverlay.addOverlay(overlayitem);
-		//		mapOverlays.add(itemizedoverlay);
-		mapOverlays.add(m);
+				mapOverlays.add(itemizedoverlay);
+		//mapOverlays.add(m);
 	}
 
 	@Override
@@ -101,10 +105,15 @@ public class TheAwesomeProject extends MapActivity {
 	}
 
 
+
+	/*
+	 * Move this to seperate class
+	 * TODO Add isPresent() (check if geocoder is present on plattform)
+	 */
 	class MapCoordinateOverlay extends Overlay {
 
 		public MapCoordinateOverlay() {
-			// TODO Auto-generated constructor stub
+
 		}
 
 		@Override
@@ -124,6 +133,53 @@ public class TheAwesomeProject extends MapActivity {
 
 
 	}
+
+	/*
+	 * Move this to seperate class
+	 * TODO Add isPresent() (check if geocoder is present on plattform)
+	 */
+	class MapCoordinateOverlayAdress extends Overlay {
+
+		public MapCoordinateOverlayAdress() {
+
+		}
+
+		@Override
+		public boolean onTouchEvent(MotionEvent event, MapView mapView){
+
+			if(event.getAction() == MotionEvent.ACTION_UP){
+				GeoPoint p = mapView.getProjection().fromPixels(
+						(int) event.getX(), 
+						(int) event.getY());
+
+				Geocoder geoCoder = new Geocoder(getBaseContext(),Locale.getDefault());
+
+				try{
+					List<Address> addresses = geoCoder.getFromLocation(
+							p.getLatitudeE6()  / 1E6, 
+							p.getLongitudeE6() / 1E6, 1);
+
+					String add = "";
+					if (addresses.size() > 0) 
+					{
+						for (int i=0; i<addresses.get(0).getMaxAddressLineIndex(); 
+						i++)
+							add += addresses.get(0).getAddressLine(i) + "\n";
+					}
+
+					Toast.makeText(getBaseContext(), add, Toast.LENGTH_SHORT).show();
+				}
+				catch (IOException e) {                
+					e.printStackTrace();
+				}   
+				return true;
+
+			} else
+				return false;
+		}
+
+	}
+
 
 
 }
