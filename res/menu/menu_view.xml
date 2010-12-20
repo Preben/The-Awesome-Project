@@ -6,4 +6,7 @@
   <item
   	android:id="@+id/menu_satelliteView"
   	android:title="@string/menu_satelliteView"/>
+  <item
+  	android:id="@+id/menu_addPoint"
+  	android:title="+"/>	
 </menu>

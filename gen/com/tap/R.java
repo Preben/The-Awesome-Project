@@ -16,6 +16,7 @@ public final class R {
     }
     public static final class id {
         public static final int mapview=0x7f060000;
+        public static final int menu_addPoint=0x7f060003;
         public static final int menu_satelliteView=0x7f060002;
         public static final int menu_streetView=0x7f060001;
     }

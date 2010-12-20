@@ -21,6 +21,8 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
+import com.tap.overlay.*;
+
 
 public class TheAwesomeProject extends MapActivity {
 	/*
@@ -35,8 +37,11 @@ public class TheAwesomeProject extends MapActivity {
 
 	MapView mapView;
 	MapController mapController;
+	public static MapItemizedOverlay itemizedoverlay;
+	List<Overlay> mapOverlays;
+    OverlayItem overlayitem;
 
-	private int zoom = 5;
+	private int zoom = 8;
 
 
 	@Override
@@ -46,19 +51,21 @@ public class TheAwesomeProject extends MapActivity {
 
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
+		
 
 		/*
 		 * List of all the overlays which will be drawn on the map
 		 */
-		List<Overlay> mapOverlays = mapView.getOverlays();
+		mapOverlays = mapView.getOverlays();
 		Drawable drawable = this.getResources().getDrawable(R.drawable.androidmarker);
-		MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable);
+		itemizedoverlay = new MapItemizedOverlay(drawable);
 
 		/*
 		 * A specific point on the map
 		 */
 		GeoPoint point = new GeoPoint(57700000,11900000);
-		OverlayItem overlayitem = new OverlayItem(point, "Hi", "Waddup");
+		overlayitem = new OverlayItem(point, "Hi", "Waddup");
+		
 
 		/*
 		 * Control the map behavior in various ways
@@ -67,11 +74,8 @@ public class TheAwesomeProject extends MapActivity {
 		mapController.animateTo(point);
 		mapController.setZoom(zoom);
 
-		MapCoordinateOverlay m = new MapCoordinateOverlay();
-
 		itemizedoverlay.addOverlay(overlayitem);
-				mapOverlays.add(itemizedoverlay);
-		//mapOverlays.add(m);
+		mapOverlays.add(itemizedoverlay);
 	}
 
 	@Override
@@ -92,93 +96,23 @@ public class TheAwesomeProject extends MapActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_streetView:
-			System.out.println("street");
 			mapView.setStreetView(true);
 			return true;
 		case R.id.menu_satelliteView:
-			System.out.println("satellite");
-			mapView.setSatellite(true);
+			mapView.setSatellite(false);
 			return true;
+		case R.id.menu_addPoint:
+			PointerOverlay pointer = new PointerOverlay();
+			mapOverlays.add(pointer);
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	
+	
 
-
-
-	/*
-	 * Move this to seperate class
-	 * TODO Add isPresent() (check if geocoder is present on plattform)
-	 */
-	class MapCoordinateOverlay extends Overlay {
-
-		public MapCoordinateOverlay() {
-
-		}
-
-		@Override
-		public boolean onTouchEvent(MotionEvent event, MapView mapView) 
-		{   
-			if (event.getAction() == MotionEvent.ACTION_UP) {                
-				GeoPoint p = mapView.getProjection().fromPixels(
-						(int) event.getX(),
-						(int) event.getY());
-				Toast.makeText(getBaseContext(), 
-						p.getLatitudeE6() / 1E6 + "," + 
-						p.getLongitudeE6() /1E6 , 
-						Toast.LENGTH_SHORT).show();
-			}                            
-			return false;
-		}
-
-
-	}
-
-	/*
-	 * Move this to seperate class
-	 * TODO Add isPresent() (check if geocoder is present on plattform)
-	 */
-	class MapCoordinateOverlayAdress extends Overlay {
-
-		public MapCoordinateOverlayAdress() {
-
-		}
-
-		@Override
-		public boolean onTouchEvent(MotionEvent event, MapView mapView){
-
-			if(event.getAction() == MotionEvent.ACTION_UP){
-				GeoPoint p = mapView.getProjection().fromPixels(
-						(int) event.getX(), 
-						(int) event.getY());
-
-				Geocoder geoCoder = new Geocoder(getBaseContext(),Locale.getDefault());
-
-				try{
-					List<Address> addresses = geoCoder.getFromLocation(
-							p.getLatitudeE6()  / 1E6, 
-							p.getLongitudeE6() / 1E6, 1);
-
-					String add = "";
-					if (addresses.size() > 0) 
-					{
-						for (int i=0; i<addresses.get(0).getMaxAddressLineIndex(); 
-						i++)
-							add += addresses.get(0).getAddressLine(i) + "\n";
-					}
-
-					Toast.makeText(getBaseContext(), add, Toast.LENGTH_SHORT).show();
-				}
-				catch (IOException e) {                
-					e.printStackTrace();
-				}   
-				return true;
-
-			} else
-				return false;
-		}
-
-	}
+	
 
 
 
