@@ -1,0 +1,14 @@
+Maps:
+  pointer:
+    Add pointer where you touch
+    direction to pointer depending on your current position
+    Get position from others
+
+  info:
+    
+list with all the points available (on click get focus on point)
+
+Change view (street etc)
+
+
+UI:

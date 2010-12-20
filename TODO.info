@@ -1,0 +1,43 @@
+Maps:
+  pointer:
+    Add/del pointer where you touch
+    direction to pointer depending on your current position
+    Get position from others
+    Add info to pointer
+
+zoom with gestures
+
+
+  info:
+    
+    toast:
+      location (adress/coord)of you and other points, speed, time to point,       
+
+ Menu:
+  compass which will show the direction
+  list with all the points available (on click get focus on point)
+  Change view (street etc) in a checkable menu
+  chat
+
+StartMenu:
+
+  Profile:
+    Add facebook account
+    personal information
+    picture etc
+
+  Settings:
+   info to be displayed
+   security (info to share)
+
+  Contacts:
+    online
+    groups (invite people, notify point) 
+
+GPS
+
+server:
+  connect to friends
+  erlang
+
+
